@@ -24,3 +24,11 @@ sudo usermod -a -G docker $USER
 
 ## Ativa recurso para salvar credential
 git config --global credential.helper store
+
+## Configuração para iniciar serviço do docker ao iniciar WSL
+echo '# Start Docker daemon automatically when logging in if not running.' >> ~/.bashrc
+echo 'RUNNING=`ps aux | grep dockerd | grep -v grep`' >> ~/.bashrc
+echo 'if [ -z "$RUNNING" ]; then' >> ~/.bashrc
+echo '    sudo dockerd > /dev/null 2>&1 &' >> ~/.bashrc
+echo '    disown' >> ~/.bashrc
+echo 'fi' >> ~/.bashrc
