@@ -21,3 +21,6 @@ sudo service docker start
 
 ## Adiciona o usuário ao grupo docker e faz logout para fazer efeito.
 sudo usermod -a -G docker $USER
+
+## Ativa recurso para salvar credential
+git config --global credential.helper store
