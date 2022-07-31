@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ####################################################
-# Instala docker no ubuntu20.04 (wsl2)
+# Instala docker no ubuntu22.04 (wsl2)
 ####################################################
 
 ## Instala dependências
@@ -16,14 +16,11 @@ sudo apt update
 ## Instala docker
 sudo apt install -y docker-ce
 
-## Inicia o serviço
-sudo service docker start
-
-## Adiciona o usuário ao grupo docker e faz logout para fazer efeito.
+## Adiciona o usuário ao grupo docker
 sudo usermod -a -G docker $USER
 
-## Ativa recurso para salvar credential
-git config --global credential.helper store
+## Remove requisição de senha ao iniciar serviço docker
+sh ./sudoers.sh "$USER ALL=(ALL) NOPASSWD: /usr/bin/dockerd"
 
 ## Configuração para iniciar serviço do docker ao iniciar WSL
 echo '# Start Docker daemon automatically when logging in if not running.' >> ~/.bashrc
@@ -32,3 +29,7 @@ echo 'if [ -z "$RUNNING" ]; then' >> ~/.bashrc
 echo '    sudo dockerd > /dev/null 2>&1 &' >> ~/.bashrc
 echo '    disown' >> ~/.bashrc
 echo 'fi' >> ~/.bashrc
+
+## Iniciando serviço docker
+sudo dockerd > /dev/null 2>&1 &
+disown
