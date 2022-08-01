@@ -10,7 +10,7 @@ sudo apt install -y apt-transport-https ca-certificates curl software-properties
 
 ## Adiciona repositório
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt update
 
 ## Instala docker
@@ -30,6 +30,5 @@ echo '    sudo dockerd > /dev/null 2>&1 &' >> ~/.bashrc
 echo '    disown' >> ~/.bashrc
 echo 'fi' >> ~/.bashrc
 
-## Iniciando serviço docker
-sudo dockerd > /dev/null 2>&1 &
-disown
+## Set iptables para legacy mode (senão docker não inicia no Ubuntu-22.04)
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
